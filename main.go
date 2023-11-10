@@ -16,24 +16,28 @@ var err error
 type Poet struct {
 	ID   string
 	Name string
+	Bio  string
 }
 
 func getPoet(c echo.Context) error {
-	// Poet ID from path `Poets/:id`
 	id := c.Param("id")
-	poets := []Poet{}
-	db.Select(&poets, "SELECT id, name FROM poet WHERE id = $1", id)
+	poet := Poet{}
+	stmt, err := db.Prepare("SELECT id, name, bio FROM poet WHERE id = $1")
+	row := stmt.QueryRow(id)
+	row.Scan(&poet.ID, &poet.Name, &poet.Bio)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
+		return err
 	}
-	return c.JSON(http.StatusOK, poets)
+	return c.JSON(http.StatusOK, poet)
 }
 
 func getPoets(c echo.Context) error {
 	poets := []Poet{}
-	db.Select(&poets, "SELECT id, name FROM poet")
+	err := db.Select(&poets, "SELECT id, name, bio FROM poet")
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
+		return err
 	}
 	return c.JSON(http.StatusOK, poets)
 }
@@ -43,6 +47,7 @@ func main() {
 	if err != nil {
 		log.Fatalln(err)
 	}
+	db.Ping()
 	defer db.Close()
 	fmt.Println("Database Connected")
 
@@ -51,14 +56,6 @@ func main() {
 		return c.String(http.StatusOK, "Hello, World!")
 	})
 	e.GET("/poet/:id", getPoet)
-	// e.GET("/poets", func(ctx echo.Context) error {
-	// 	poets := []Poet{}
-	// 	db.Select(&poets, "SELECT id, name FROM poet")
-	// 	if err != nil {
-	// 		log.Fatal(err)
-	// 	}
-	// 	return ctx.JSON(http.StatusOK, poets)
-	// })
 	e.GET("/poets", getPoets)
 	e.Logger.Fatal(e.Start(":1323"))
 }
