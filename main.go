@@ -8,6 +8,7 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo"
+	"github.com/labstack/echo/middleware"
 	_ "github.com/lib/pq"
 )
 
@@ -26,9 +27,17 @@ func main() {
 	datasource.ConnectRedis()
 
 	e := echo.New()
+
+	e.Use(middleware.Secure())
+	e.Use(middleware.CORS())
+	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
+		Format: "METHOD=${method}, URI=${uri}, STATUS=${status}\n",
+	}))
+
 	e.GET("/", func(c echo.Context) error {
 		return c.String(http.StatusOK, "Hello, World!")
 	})
+
 	component_poet.Init(e)
 
 	e.Logger.Fatal(e.Start(":1323"))
