@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"my-way/config"
 	"net/http"
 	"time"
 
@@ -62,7 +63,17 @@ func getPoets(c echo.Context) error {
 }
 
 func main() {
-	db, err = sqlx.Connect("postgres", "host=localhost port=5432 user=postgres dbname=adeeb_db_test sslmode=disable")
+
+	conf, err := config.LoadConfig(".")
+	if err != nil {
+		log.Fatal("Could not load environment variables config.", err)
+	}
+
+	config.AppConfig = &conf
+
+	sqlxStr := fmt.Sprintf("host=%v port=%v user=%v dbname=%v sslmode=disable", config.AppConfig.DB_HOST, config.AppConfig.DB_PORT, config.AppConfig.DB_USER, config.AppConfig.DB_NAME)
+	db, err = sqlx.Connect("postgres", sqlxStr)
+	// db, err = sqlx.Connect("postgres", "host=localhost port=5432 user=postgres dbname=adeeb_db_test sslmode=disable")
 	if err != nil {
 		log.Fatalln(err)
 	}
