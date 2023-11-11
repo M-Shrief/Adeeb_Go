@@ -1,23 +1,17 @@
 package main
 
 import (
-	"context"
 	"encoding/json"
 	"fmt"
 	"log"
 	"my-way/config"
+	"my-way/datasource"
 	"net/http"
 	"time"
 
-	"github.com/jmoiron/sqlx"
 	"github.com/labstack/echo"
 	_ "github.com/lib/pq"
-	"github.com/redis/go-redis/v9"
 )
-
-var db *sqlx.DB
-var err error
-var rdb *redis.Client
 
 type Poet struct {
 	ID   string `json:"id" redis:"id"` // use redis tags when using redis Hashmaps
@@ -30,20 +24,20 @@ func getPoet(c echo.Context) error {
 	poet := new(Poet)
 
 	rPoetKey := fmt.Sprintf("poet:%v", id)
-	val, err := rdb.Get(c.Request().Context(), rPoetKey).Result()
+	val, err := datasource.Redis.Get(c.Request().Context(), rPoetKey).Result()
 	if err == nil {
 		json.Unmarshal([]byte(val), &poet)
 		fmt.Println("From Redis")
 		return c.JSON(http.StatusOK, poet)
 	}
 
-	stmt, err := db.Prepare("SELECT id, name, bio FROM poet WHERE id = $1")
+	stmt, err := datasource.DB.Prepare("SELECT id, name, bio FROM poet WHERE id = $1")
 	row := stmt.QueryRow(id)
 	row.Scan(&poet.ID, &poet.Name, &poet.Bio)
 
 	mPoet, _ := json.Marshal(poet)
 	ttl := 15 * time.Minute
-	rdb.Set(c.Request().Context(), rPoetKey, mPoet, ttl)
+	datasource.Redis.Set(c.Request().Context(), rPoetKey, mPoet, ttl)
 	if err != nil {
 		log.Println(err)
 		return err
@@ -54,7 +48,7 @@ func getPoet(c echo.Context) error {
 
 func getPoets(c echo.Context) error {
 	poets := []Poet{}
-	err := db.Select(&poets, "SELECT id, name, bio FROM poet")
+	err := datasource.DB.Select(&poets, "SELECT id, name, bio FROM poet")
 	if err != nil {
 		log.Println(err)
 		return err
@@ -71,22 +65,10 @@ func main() {
 
 	config.AppConfig = &conf
 
-	sqlxStr := fmt.Sprintf("host=%v port=%v user=%v dbname=%v sslmode=disable", config.AppConfig.DB_HOST, config.AppConfig.DB_PORT, config.AppConfig.DB_USER, config.AppConfig.DB_NAME)
-	db, err = sqlx.Connect("postgres", sqlxStr)
-	// db, err = sqlx.Connect("postgres", "host=localhost port=5432 user=postgres dbname=adeeb_db_test sslmode=disable")
-	if err != nil {
-		log.Fatalln(err)
-	}
-	db.Ping()
-	defer db.Close()
-	fmt.Println("Database Connected")
+	datasource.ConnectDB()
+	defer datasource.DB.Close()
 
-	rdb = redis.NewClient(&redis.Options{})
-	err = rdb.Ping(context.Background()).Err()
-	if err != nil {
-		log.Fatalln(err)
-	}
-	fmt.Println("Redis Connected")
+	datasource.ConnectRedis()
 
 	e := echo.New()
 	e.GET("/", func(c echo.Context) error {
