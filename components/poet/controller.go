@@ -7,12 +7,17 @@ import (
 	"github.com/labstack/echo"
 )
 
+const (
+	not_Available string = "No Poets available"
+	not_Found     string = "No Poets found"
+)
+
 func getPoets(c echo.Context) error {
 	poets := []Poet{}
 	err := selectPoets(&poets)
-	if err != nil {
+	if err != nil || len(poets) == 0 {
 		log.Println(err)
-		return c.String(http.StatusOK, "No Poets found")
+		return c.String(http.StatusNotFound, not_Available)
 	}
 	return c.JSON(http.StatusOK, poets)
 }
@@ -24,7 +29,7 @@ func getPoet(c echo.Context) error {
 	err := selectPoet(c.Request().Context(), id, poet)
 	if err != nil {
 		log.Println(err)
-		return c.String(http.StatusOK, "Can't Find Poet")
+		return c.String(http.StatusNotFound, not_Found)
 	}
 	return c.JSON(http.StatusOK, poet)
 }
