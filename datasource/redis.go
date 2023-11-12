@@ -2,8 +2,8 @@ package datasource
 
 import (
 	"context"
-	"fmt"
-	"log"
+
+	"github.com/rs/zerolog/log"
 
 	"github.com/redis/go-redis/v9"
 )
@@ -14,7 +14,7 @@ func ConnectRedis() {
 	Redis = redis.NewClient(&redis.Options{})
 	err := Redis.Ping(context.Background()).Err()
 	if err != nil {
-		log.Fatalln(err)
+		log.Fatal().Err(err).Msg("Couldn't connect to Redis")
 	}
-	fmt.Println("Redis Connected")
+	log.Info().Msg("Redis Connected")
 }

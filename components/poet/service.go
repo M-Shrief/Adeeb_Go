@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"log"
 	"my-way/datasource"
 	"time"
 )
@@ -23,7 +22,6 @@ func selectPoet(c context.Context, id string, poet *Poet) error {
 
 	stmt, dbErr := datasource.DB.Prepare("SELECT id, name, bio FROM poet WHERE id = $1")
 	if dbErr != nil {
-		log.Println(dbErr)
 		return dbErr
 	}
 	row := stmt.QueryRow(id)
