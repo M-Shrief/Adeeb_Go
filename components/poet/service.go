@@ -1,18 +1,19 @@
 package component_poet
 
 import (
-	"context"
 	"encoding/json"
 	"fmt"
 	"my-way/datasource"
 	"time"
+
+	"github.com/valyala/fasthttp"
 )
 
 func selectPoets(poets *[]Poet) error {
 	return datasource.DB.Select(poets, "SELECT id, name, bio FROM poet")
 }
 
-func selectPoet(c context.Context, id string, poet *Poet) error {
+func selectPoet(c *fasthttp.RequestCtx, id string, poet *Poet) error {
 	rPoetKey := fmt.Sprintf("poet:%v", id)
 	val, rErr := datasource.Redis.Get(c, rPoetKey).Result()
 	if rErr == nil {

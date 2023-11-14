@@ -4,11 +4,13 @@ import (
 	component_poet "my-way/components/poet"
 	"my-way/config"
 	"my-way/datasource"
-	"net/http"
 	"os"
 
-	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/gofiber/fiber/v2/middleware/helmet"
+	"github.com/gofiber/fiber/v2/middleware/logger"
+
 	_ "github.com/lib/pq"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
@@ -29,30 +31,22 @@ func main() {
 
 	datasource.ConnectRedis()
 
-	e := echo.New()
+	app := fiber.New()
 
-	e.Use(middleware.Secure())
-	e.Use(middleware.CORS())
-	e.Use(middleware.RequestLoggerWithConfig(middleware.RequestLoggerConfig{
-		LogURI:     true,
-		LogStatus:  true,
-		LogLatency: true,
-		LogValuesFunc: func(c echo.Context, v middleware.RequestLoggerValues) error {
-			log.Info().
-				Str("URI", v.URI).
-				Str("latency", v.Latency.String()).
-				Int("status", v.Status).
-				Msg("request")
-
-			return nil
-		},
+	app.Use(helmet.New())
+	app.Use(cors.New())
+	app.Use(logger.New(logger.Config{
+		Format: "[${time}]: ${method} ${path} - Status: ${status}, Latency: ${latency}. \n",
 	}))
 
-	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, World!")
+	app.Get("/", func(c *fiber.Ctx) error {
+		return c.SendString("Hello, World!")
 	})
+	api := app.Group("/api")
+	component_poet.Init(api)
 
-	component_poet.Init(e)
-
-	e.Logger.Fatal(e.Start(":1323"))
+	err = app.Listen(":1323")
+	if err != nil {
+		log.Fatal().Msgf("Can't initialized app, error:%v", err)
+	}
 }

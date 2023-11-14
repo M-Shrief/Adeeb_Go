@@ -3,7 +3,7 @@ package component_poet
 import (
 	"net/http"
 
-	"github.com/labstack/echo/v4"
+	"github.com/gofiber/fiber/v2"
 )
 
 const (
@@ -11,22 +11,22 @@ const (
 	not_Found     string = "No Poets found"
 )
 
-func getPoets(c echo.Context) error {
+func getPoets(c *fiber.Ctx) error {
 	poets := []Poet{}
 	err := selectPoets(&poets)
 	if err != nil || len(poets) == 0 {
-		return c.String(http.StatusNotFound, not_Available)
+		return c.Status(http.StatusNotFound).SendString(not_Available)
 	}
-	return c.JSON(http.StatusOK, poets)
+	return c.Status(http.StatusOK).JSON(poets)
 }
 
-func getPoet(c echo.Context) error {
-	id := c.Param("id")
+func getPoet(c *fiber.Ctx) error {
+	id := c.Params("id")
 	poet := new(Poet)
 
-	err := selectPoet(c.Request().Context(), id, poet)
+	err := selectPoet(c.Context(), id, poet)
 	if err != nil {
-		return c.String(http.StatusNotFound, not_Found)
+		return c.Status(http.StatusNotFound).SendString(not_Found)
 	}
-	return c.JSON(http.StatusOK, poet)
+	return c.Status(http.StatusOK).JSON(poet)
 }
