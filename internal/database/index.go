@@ -1,10 +1,10 @@
 package database
 
 import (
+	"Adeeb_Go/internal/config"
+	"Adeeb_Go/logger"
 	"context"
 	"fmt"
-	"go_huma_backend/internal/config"
-	"go_huma_backend/logger"
 	"os"
 
 	"github.com/jackc/pgx/v5"

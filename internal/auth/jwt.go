@@ -1,9 +1,9 @@
 package auth
 
 import (
+	"Adeeb_Go/internal/config"
+	"Adeeb_Go/internal/database"
 	"fmt"
-	"go_huma_backend/internal/config"
-	"go_huma_backend/internal/database"
 	"time"
 
 	"github.com/golang-jwt/jwt"

@@ -1,7 +1,7 @@
 package users
 
 import (
-	"go_huma_backend/internal/database"
+	"Adeeb_Go/internal/database"
 	"net/http"
 
 	"github.com/danielgtaylor/huma/v2"

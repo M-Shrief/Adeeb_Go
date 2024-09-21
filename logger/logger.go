@@ -11,9 +11,9 @@
 package logger
 
 import (
+	"Adeeb_Go/internal/config"
 	"bytes"
 	"fmt"
-	"go_huma_backend/internal/config"
 	"io"
 	"os"
 	"time"

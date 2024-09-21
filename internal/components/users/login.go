@@ -1,9 +1,9 @@
 package users
 
 import (
+	"Adeeb_Go/internal/auth"
+	"Adeeb_Go/internal/database"
 	"context"
-	"go_huma_backend/internal/auth"
-	"go_huma_backend/internal/database"
 	"net/http"
 	"time"
 

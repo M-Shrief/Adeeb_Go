@@ -1,10 +1,10 @@
 package users
 
 import (
+	"Adeeb_Go/internal/auth"
+	"Adeeb_Go/internal/database"
 	"context"
 	"fmt"
-	"go_huma_backend/internal/auth"
-	"go_huma_backend/internal/database"
 	"net/http"
 
 	"github.com/danielgtaylor/huma/v2"

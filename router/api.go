@@ -1,8 +1,8 @@
 package router
 
 import (
-	"go_huma_backend/internal/components/heartbeat"
-	"go_huma_backend/internal/components/users"
+	"Adeeb_Go/internal/components/heartbeat"
+	"Adeeb_Go/internal/components/users"
 
 	"github.com/danielgtaylor/huma/v2"
 	"github.com/danielgtaylor/huma/v2/adapters/humachi"

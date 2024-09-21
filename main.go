@@ -1,12 +1,12 @@
 package main
 
 import (
+	"Adeeb_Go/internal/config"
+	"Adeeb_Go/internal/database"
+	"Adeeb_Go/logger"
+	"Adeeb_Go/router"
 	"context"
 	"fmt"
-	"go_huma_backend/internal/config"
-	"go_huma_backend/internal/database"
-	"go_huma_backend/logger"
-	"go_huma_backend/router"
 	"net/http"
 )
 

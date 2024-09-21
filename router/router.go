@@ -1,7 +1,7 @@
 package router
 
 import (
-	"go_huma_backend/logger"
+	"Adeeb_Go/logger"
 	"time"
 
 	"github.com/go-chi/chi/v5"
