@@ -11,7 +11,7 @@ UPDATE users SET
   name = COALESCE(NULLIF($2::varchar, ''), name),
   password = COALESCE(NULLIF($3::varchar, ''), password),
   roles = COALESCE(NULLIF($4::role[], ARRAY[]::role[]), roles),
-  update_at = CURRENT_TIMESTAMP
+  updated_at = CURRENT_TIMESTAMP
 WHERE id = $1;
 
 -- name: DeleteUser :exec
