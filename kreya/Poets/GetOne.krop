@@ -1,0 +1,15 @@
+{
+  "details": {
+    "path": "/api/poets/6631faaf-162e-4861-a40f-10ab92169994",
+    "method": "GET",
+    "pathParams": []
+  },
+  "requests": [
+    {
+      "contentType": "none"
+    }
+  ],
+  "operationType": "unary",
+  "invokerName": "rest",
+  "typeHint": "GET"
+}
