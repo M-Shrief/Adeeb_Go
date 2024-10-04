@@ -54,11 +54,67 @@ func (ns NullRole) Value() (driver.Value, error) {
 	return string(ns.Role), nil
 }
 
+type TimePeriod string
+
+const (
+	TimePeriodValue0 TimePeriod = "جاهلي"
+	TimePeriodValue1 TimePeriod = "أموي"
+	TimePeriodValue2 TimePeriod = "عباسي"
+	TimePeriodValue3 TimePeriod = "أندلسي"
+	TimePeriodValue4 TimePeriod = "عثماني ومملوكي"
+	TimePeriodValue5 TimePeriod = "متأخر وحديث"
+)
+
+func (e *TimePeriod) Scan(src interface{}) error {
+	switch s := src.(type) {
+	case []byte:
+		*e = TimePeriod(s)
+	case string:
+		*e = TimePeriod(s)
+	default:
+		return fmt.Errorf("unsupported scan type for TimePeriod: %T", src)
+	}
+	return nil
+}
+
+type NullTimePeriod struct {
+	TimePeriod TimePeriod `json:"time_period"`
+	Valid      bool       `json:"valid"` // Valid is true if TimePeriod is not NULL
+}
+
+// Scan implements the Scanner interface.
+func (ns *NullTimePeriod) Scan(value interface{}) error {
+	if value == nil {
+		ns.TimePeriod, ns.Valid = "", false
+		return nil
+	}
+	ns.Valid = true
+	return ns.TimePeriod.Scan(value)
+}
+
+// Value implements the driver Valuer interface.
+func (ns NullTimePeriod) Value() (driver.Value, error) {
+	if !ns.Valid {
+		return nil, nil
+	}
+	return string(ns.TimePeriod), nil
+}
+
+type Poet struct {
+	ID         pgtype.UUID      `json:"id"`
+	Name       string           `json:"name"`
+	Bio        string           `json:"bio"`
+	Reviewed   pgtype.Bool      `json:"reviewed"`
+	TimePeriod TimePeriod       `json:"time_period"`
+	CreatedAt  pgtype.Timestamp `json:"created_at"`
+	UpdatedAt  pgtype.Timestamp `json:"updated_at"`
+}
+
 type User struct {
 	ID        pgtype.UUID      `json:"id"`
 	Name      string           `json:"name"`
 	Password  string           `json:"password"`
 	Roles     []Role           `json:"roles"`
 	CreatedAt pgtype.Timestamp `json:"created_at"`
-	UpdateAt  pgtype.Timestamp `json:"update_at"`
+	UpdatedAt pgtype.Timestamp `json:"updated_at"`
 }
