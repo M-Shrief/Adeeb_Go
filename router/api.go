@@ -2,6 +2,7 @@ package router
 
 import (
 	"Adeeb_Go/internal/components/heartbeat"
+	"Adeeb_Go/internal/components/poets"
 	"Adeeb_Go/internal/components/users"
 
 	"github.com/danielgtaylor/huma/v2"
@@ -33,4 +34,5 @@ func InitAPI() huma.API {
 func registerAPIs() {
 	heartbeat.RegisterAPI(API)
 	users.RegisterAPI(API)
+	poets.RegisterAPI(API)
 }
