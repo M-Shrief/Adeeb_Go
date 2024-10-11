@@ -3,6 +3,9 @@
 INSERT INTO poets (name, bio, time_period) VALUES ($1, $2, $3) RETURNING *;
 -- like INSERT INTO users (name, password, roles) VALUES ('nameasf', 'sfaasffas', ARRAY['DBA']::role[]) RETURNING *;
 
+-- name: GetPoets :many
+SELECT * FROM poets;
+
 -- name: GetPoetById :one
 SELECT * FROM poets WHERE id = $1 LIMIT 1;
 
