@@ -37,11 +37,9 @@ func (q *Queries) CreatePoet(ctx context.Context, arg CreatePoetParams) (Poet, e
 }
 
 const getPoetById = `-- name: GetPoetById :one
-
 SELECT id, name, bio, reviewed, time_period, created_at, updated_at FROM poets WHERE id = $1 LIMIT 1
 `
 
-// like INSERT INTO users (name, password, roles) VALUES ('nameasf', 'sfaasffas', ARRAY['DBA']::role[]) RETURNING *;
 func (q *Queries) GetPoetById(ctx context.Context, id pgtype.UUID) (Poet, error) {
 	row := q.db.QueryRow(ctx, getPoetById, id)
 	var i Poet
@@ -55,4 +53,38 @@ func (q *Queries) GetPoetById(ctx context.Context, id pgtype.UUID) (Poet, error)
 		&i.UpdatedAt,
 	)
 	return i, err
+}
+
+const getPoets = `-- name: GetPoets :many
+
+SELECT id, name, bio, reviewed, time_period, created_at, updated_at FROM poets
+`
+
+// like INSERT INTO users (name, password, roles) VALUES ('nameasf', 'sfaasffas', ARRAY['DBA']::role[]) RETURNING *;
+func (q *Queries) GetPoets(ctx context.Context) ([]Poet, error) {
+	rows, err := q.db.Query(ctx, getPoets)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Poet
+	for rows.Next() {
+		var i Poet
+		if err := rows.Scan(
+			&i.ID,
+			&i.Name,
+			&i.Bio,
+			&i.Reviewed,
+			&i.TimePeriod,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
 }
