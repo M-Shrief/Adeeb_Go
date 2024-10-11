@@ -12,7 +12,7 @@ type GetAllInput struct {
 }
 
 type GetAllOutput struct {
-	Body   []database.Poet
+	Body   []database.GetPoetsRow
 	Status int
 }
 

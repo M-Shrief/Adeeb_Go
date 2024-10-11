@@ -13,7 +13,7 @@ type GetOneInput struct {
 }
 
 type GetOneOutput struct {
-	Body   database.Poet
+	Body   database.GetPoetByIdRow
 	Status int
 }
 

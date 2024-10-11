@@ -17,7 +17,7 @@ type CreateInput struct {
 }
 
 type CreateOutput struct {
-	Body   database.Poet
+	Body   database.CreatePoetRow
 	Status int
 }
 
