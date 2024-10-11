@@ -12,7 +12,7 @@ import (
 )
 
 const createPoet = `-- name: CreatePoet :one
-INSERT INTO poets (name, bio, time_period) VALUES ($1, $2, $3) RETURNING id, name, bio, reviewed, time_period, created_at, updated_at
+INSERT INTO poets (name, bio, time_period) VALUES ($1, $2, $3) RETURNING id,name,bio,time_period
 `
 
 type CreatePoetParams struct {
@@ -21,63 +21,73 @@ type CreatePoetParams struct {
 	TimePeriod TimePeriod `json:"time_period"`
 }
 
-func (q *Queries) CreatePoet(ctx context.Context, arg CreatePoetParams) (Poet, error) {
+type CreatePoetRow struct {
+	ID         pgtype.UUID `json:"id"`
+	Name       string      `json:"name"`
+	Bio        string      `json:"bio"`
+	TimePeriod TimePeriod  `json:"time_period"`
+}
+
+func (q *Queries) CreatePoet(ctx context.Context, arg CreatePoetParams) (CreatePoetRow, error) {
 	row := q.db.QueryRow(ctx, createPoet, arg.Name, arg.Bio, arg.TimePeriod)
-	var i Poet
+	var i CreatePoetRow
 	err := row.Scan(
 		&i.ID,
 		&i.Name,
 		&i.Bio,
-		&i.Reviewed,
 		&i.TimePeriod,
-		&i.CreatedAt,
-		&i.UpdatedAt,
 	)
 	return i, err
 }
 
 const getPoetById = `-- name: GetPoetById :one
-SELECT id, name, bio, reviewed, time_period, created_at, updated_at FROM poets WHERE id = $1 LIMIT 1
+SELECT id,name,bio,time_period FROM poets WHERE id = $1 LIMIT 1
 `
 
-func (q *Queries) GetPoetById(ctx context.Context, id pgtype.UUID) (Poet, error) {
+type GetPoetByIdRow struct {
+	ID         pgtype.UUID `json:"id"`
+	Name       string      `json:"name"`
+	Bio        string      `json:"bio"`
+	TimePeriod TimePeriod  `json:"time_period"`
+}
+
+func (q *Queries) GetPoetById(ctx context.Context, id pgtype.UUID) (GetPoetByIdRow, error) {
 	row := q.db.QueryRow(ctx, getPoetById, id)
-	var i Poet
+	var i GetPoetByIdRow
 	err := row.Scan(
 		&i.ID,
 		&i.Name,
 		&i.Bio,
-		&i.Reviewed,
 		&i.TimePeriod,
-		&i.CreatedAt,
-		&i.UpdatedAt,
 	)
 	return i, err
 }
 
 const getPoets = `-- name: GetPoets :many
-
-SELECT id, name, bio, reviewed, time_period, created_at, updated_at FROM poets
+SELECT id,name,bio,time_period FROM poets
 `
 
-// like INSERT INTO users (name, password, roles) VALUES ('nameasf', 'sfaasffas', ARRAY['DBA']::role[]) RETURNING *;
-func (q *Queries) GetPoets(ctx context.Context) ([]Poet, error) {
+type GetPoetsRow struct {
+	ID         pgtype.UUID `json:"id"`
+	Name       string      `json:"name"`
+	Bio        string      `json:"bio"`
+	TimePeriod TimePeriod  `json:"time_period"`
+}
+
+func (q *Queries) GetPoets(ctx context.Context) ([]GetPoetsRow, error) {
 	rows, err := q.db.Query(ctx, getPoets)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []Poet
+	var items []GetPoetsRow
 	for rows.Next() {
-		var i Poet
+		var i GetPoetsRow
 		if err := rows.Scan(
 			&i.ID,
 			&i.Name,
 			&i.Bio,
-			&i.Reviewed,
 			&i.TimePeriod,
-			&i.CreatedAt,
-			&i.UpdatedAt,
 		); err != nil {
 			return nil, err
 		}
