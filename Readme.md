@@ -20,7 +20,7 @@ Characteristics:
 
 
 ## Folders structure
-I'll skip with default Go files, and general folders like `.gitignore`.
+I'll default Go files, and general folders like `.gitignore`...etc.
 
 - `internal` folder for packages that specific for the project:
     - `auth` holds JWT authentication and authorization config and functionalities. 
