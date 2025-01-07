@@ -57,7 +57,7 @@ func RegisterAPI(api huma.API) {
 				{"bearer": {}},
 			},
 		},
-		UpdateHandler,
+		UpdateUserHandler,
 	)
 
 	huma.Register(

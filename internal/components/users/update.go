@@ -10,7 +10,7 @@ import (
 	"github.com/danielgtaylor/huma/v2"
 )
 
-type UpdateInput struct {
+type UpdateUserInput struct {
 	Auth string `header:"Authorization"`
 	Body struct {
 		Name     string          `json:"name" required:"false" maxLength:"50" example:"John Doe" doc:"User's name"`
@@ -19,11 +19,11 @@ type UpdateInput struct {
 	}
 }
 
-type UpdateOutput struct {
+type UpdateUserOutput struct {
 	Status int
 }
 
-func UpdateHandler(ctx context.Context, input *UpdateInput) (*UpdateOutput, error) {
+func UpdateUserHandler(ctx context.Context, input *UpdateUserInput) (*UpdateUserOutput, error) {
 	claims, err := auth.ValidateToken(
 		input.Auth,
 		[]string{
@@ -65,5 +65,5 @@ func UpdateHandler(ctx context.Context, input *UpdateInput) (*UpdateOutput, erro
 		return nil, huma.Error406NotAcceptable("Update not accepted", err)
 	}
 
-	return &UpdateOutput{Status: http.StatusAccepted}, nil
+	return &UpdateUserOutput{Status: http.StatusAccepted}, nil
 }
