@@ -8,16 +8,16 @@ import (
 	"github.com/danielgtaylor/huma/v2"
 )
 
-type GetOneInput struct {
+type GetOnePoetInput struct {
 	ID string `path:"id" maxLength:"100" doc:"Poet's ID"`
 }
 
-type GetOneOutput struct {
+type GetOnePoetOutput struct {
 	Body   database.GetPoetByIdRow
 	Status int
 }
 
-func GetOneHandler(ctx context.Context, input *GetOneInput) (*GetOneOutput, error) {
+func GetOnePoetHandler(ctx context.Context, input *GetOnePoetInput) (*GetOnePoetOutput, error) {
 	uuid, err := database.StringToUUID(input.ID)
 	if err != nil {
 		return nil, huma.Error400BadRequest("Poet's ID is not valid")
@@ -28,7 +28,7 @@ func GetOneHandler(ctx context.Context, input *GetOneInput) (*GetOneOutput, erro
 		return nil, huma.Error404NotFound("Poet's not found")
 	}
 
-	resp := &GetOneOutput{
+	resp := &GetOnePoetOutput{
 		Body:   poet,
 		Status: http.StatusOK,
 	}

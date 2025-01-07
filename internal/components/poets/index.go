@@ -18,7 +18,7 @@ func RegisterAPI(api huma.API) {
 			Tags:          []string{"Poets"},
 			DefaultStatus: http.StatusCreated,
 		},
-		CreateHandler,
+		CreatePoetHandler,
 	)
 
 	huma.Register(
@@ -32,7 +32,7 @@ func RegisterAPI(api huma.API) {
 			Tags:          []string{"Poets"},
 			DefaultStatus: http.StatusOK,
 		},
-		GetAllHandler,
+		GetAllPoetsHandler,
 	)
 
 	huma.Register(
@@ -46,7 +46,7 @@ func RegisterAPI(api huma.API) {
 			Tags:          []string{"Poets"},
 			DefaultStatus: http.StatusOK,
 		},
-		GetOneHandler,
+		GetOnePoetHandler,
 	)
 
 	huma.Register(

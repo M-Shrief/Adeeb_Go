@@ -9,7 +9,7 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
-type CreateInput struct {
+type CreatePoetInput struct {
 	Body struct {
 		Name       string              `json:"name" minLength:"4" maxLength:"50" example:"عمرو بن كلثوم" doc:"Poet's name"`
 		Bio        string              `json:"bio" minLength:"4" maxLength:"500" example:"من أشعر الشعراء بالجاهلية وصاحب المعلقة المشهورة....الخ" doc:"Poet's Bio"`
@@ -17,12 +17,12 @@ type CreateInput struct {
 	}
 }
 
-type CreateOutput struct {
+type CreatePoetOutput struct {
 	Body   database.CreatePoetRow
 	Status int
 }
 
-func CreateHandler(ctx context.Context, input *CreateInput) (*CreateOutput, error) {
+func CreatePoetHandler(ctx context.Context, input *CreatePoetInput) (*CreatePoetOutput, error) {
 	poet, err := database.Q.CreatePoet(
 		ctx,
 		database.CreatePoetParams{
@@ -36,7 +36,7 @@ func CreateHandler(ctx context.Context, input *CreateInput) (*CreateOutput, erro
 		return nil, huma.Error406NotAcceptable("User's data is not acceptable", err) // need to customize errors:[]
 	}
 
-	resp := &CreateOutput{
+	resp := &CreatePoetOutput{
 		Body:   poet,
 		Status: http.StatusCreated,
 	}

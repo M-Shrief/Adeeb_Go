@@ -8,21 +8,21 @@ import (
 	"github.com/danielgtaylor/huma/v2"
 )
 
-type GetAllInput struct {
+type GetAllPoetsInput struct {
 }
 
-type GetAllOutput struct {
+type GetAllPoetsOutput struct {
 	Body   []database.GetPoetsRow
 	Status int
 }
 
-func GetAllHandler(ctx context.Context, input *GetAllInput) (*GetAllOutput, error) {
+func GetAllPoetsHandler(ctx context.Context, input *GetAllPoetsInput) (*GetAllPoetsOutput, error) {
 	poets, err := database.Q.GetPoets(ctx)
 	if err != nil {
 		return nil, huma.Error404NotFound("Poets are not available")
 	}
 
-	resp := &GetAllOutput{
+	resp := &GetAllPoetsOutput{
 		Body:   poets,
 		Status: http.StatusOK,
 	}
