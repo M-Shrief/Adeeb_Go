@@ -48,4 +48,18 @@ func RegisterAPI(api huma.API) {
 		},
 		GetOneHandler,
 	)
+
+	huma.Register(
+		api,
+		huma.Operation{
+			OperationID:   "update-poet",
+			Method:        http.MethodPut,
+			Path:          "/api/poets/{id}",
+			Summary:       "Update Poet",
+			Description:   "Update a Poet",
+			Tags:          []string{"Poets"},
+			DefaultStatus: http.StatusAccepted,
+		},
+		UpdatePoetHandler,
+	)
 }
