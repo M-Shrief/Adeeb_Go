@@ -74,6 +74,6 @@ func RegisterAPI(api huma.API) {
 				{"bearer": {}},
 			},
 		},
-		DeleteHandler,
+		DeleteUserHandler,
 	)
 }

@@ -10,15 +10,15 @@ import (
 	"github.com/danielgtaylor/huma/v2"
 )
 
-type DeleteInput struct {
+type DeleteUserInput struct {
 	Auth string `header:"Authorization"`
 }
 
-type DeleteOutput struct {
+type DeleteUserOutput struct {
 	Status int
 }
 
-func DeleteHandler(ctx context.Context, input *DeleteInput) (*DeleteOutput, error) {
+func DeleteUserHandler(ctx context.Context, input *DeleteUserInput) (*DeleteUserOutput, error) {
 	claims, err := auth.ValidateToken(
 		input.Auth,
 		[]string{
@@ -43,6 +43,6 @@ func DeleteHandler(ctx context.Context, input *DeleteInput) (*DeleteOutput, erro
 		return nil, huma.Error404NotFound("Not deleted", err)
 	}
 
-	resp := &DeleteOutput{http.StatusAccepted}
+	resp := &DeleteUserOutput{http.StatusAccepted}
 	return resp, nil
 }
