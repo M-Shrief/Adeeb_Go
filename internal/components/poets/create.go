@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/danielgtaylor/huma/v2"
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 type CreateInput struct {
@@ -25,9 +26,9 @@ func CreateHandler(ctx context.Context, input *CreateInput) (*CreateOutput, erro
 	poet, err := database.Q.CreatePoet(
 		ctx,
 		database.CreatePoetParams{
-			Name:       input.Body.Name,
-			Bio:        input.Body.Bio,
-			TimePeriod: input.Body.TimePeriod,
+			Name:       pgtype.Text{String: input.Body.Name, Valid: true},
+			Bio:        pgtype.Text{String: input.Body.Bio, Valid: true},
+			TimePeriod: database.NullTimePeriod{TimePeriod: input.Body.TimePeriod, Valid: true},
 		},
 	)
 

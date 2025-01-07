@@ -16,9 +16,9 @@ INSERT INTO poets (name, bio, time_period) VALUES ($1, $2, $3) RETURNING id,name
 `
 
 type CreatePoetParams struct {
-	Name       string     `json:"name"`
-	Bio        string     `json:"bio"`
-	TimePeriod TimePeriod `json:"time_period"`
+	Name       pgtype.Text    `json:"name"`
+	Bio        pgtype.Text    `json:"bio"`
+	TimePeriod NullTimePeriod `json:"time_period"`
 }
 
 type CreatePoetRow struct {
