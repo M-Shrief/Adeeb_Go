@@ -40,6 +40,15 @@ func (q *Queries) CreatePoet(ctx context.Context, arg CreatePoetParams) (CreateP
 	return i, err
 }
 
+const deletePoet = `-- name: DeletePoet :exec
+DELETE FROM poets WHERE id = $1
+`
+
+func (q *Queries) DeletePoet(ctx context.Context, id pgtype.UUID) error {
+	_, err := q.db.Exec(ctx, deletePoet, id)
+	return err
+}
+
 const getPoetById = `-- name: GetPoetById :one
 SELECT id,name,bio,time_period FROM poets WHERE id = $1 LIMIT 1
 `

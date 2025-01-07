@@ -8,5 +8,5 @@ SELECT id,name,bio,time_period FROM poets;
 -- name: GetPoetById :one
 SELECT id,name,bio,time_period FROM poets WHERE id = $1 LIMIT 1;
 
--- -- name: DeletePoet :exec
--- DELETE FROM poets WHERE id = $1;
+-- name: DeletePoet :exec
+DELETE FROM poets WHERE id = $1;
