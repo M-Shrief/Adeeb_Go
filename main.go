@@ -5,7 +5,6 @@ import (
 	"Adeeb_Go/internal/database"
 	"Adeeb_Go/logger"
 	"Adeeb_Go/router"
-	"context"
 	"fmt"
 	"net/http"
 )
@@ -19,7 +18,7 @@ func main() {
 
 	// Database
 	conn, _ := database.Connect()
-	defer conn.Close(context.Background())
+	defer conn.Close()
 
 	// Router & API
 	r := router.NewRouter()
