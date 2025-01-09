@@ -2,7 +2,7 @@ package auth
 
 import (
 	"Adeeb_Go/internal/config"
-	"Adeeb_Go/internal/database"
+	"Adeeb_Go/internal/database/sqlc"
 	"fmt"
 	"time"
 
@@ -10,9 +10,9 @@ import (
 )
 
 type JWTUserClaims struct {
-	ID    string          `json:"id"`
-	Name  string          `json:"name"`
-	Roles []database.Role `json:"roles"`
+	ID    string      `json:"id"`
+	Name  string      `json:"name"`
+	Roles []sqlc.Role `json:"roles"`
 }
 
 func CreateJWT(ttl time.Duration, user JWTUserClaims, permissions []string) (string, error) {
@@ -31,16 +31,16 @@ func CreateJWT(ttl time.Duration, user JWTUserClaims, permissions []string) (str
 	return token, nil
 }
 
-func NewPermission(signedFor []database.Role) []string {
+func NewPermission(signedFor []sqlc.Role) []string {
 	var permission []string
 	for _, service := range signedFor {
 		switch service {
-		case database.RoleManagement:
-			permission = append(permission, fmt.Sprintf("%v:read", database.RoleManagement), fmt.Sprintf("%v:write", database.RoleManagement))
-		case database.RoleDBA:
-			permission = append(permission, fmt.Sprintf("%v:read", database.RoleDBA), fmt.Sprintf("%v:write", database.RoleDBA))
-		case database.RoleAnalytics:
-			permission = append(permission, fmt.Sprintf("%v:read", database.RoleAnalytics), fmt.Sprintf("%v:write", database.RoleAnalytics))
+		case sqlc.RoleManagement:
+			permission = append(permission, fmt.Sprintf("%v:read", sqlc.RoleManagement), fmt.Sprintf("%v:write", sqlc.RoleManagement))
+		case sqlc.RoleDBA:
+			permission = append(permission, fmt.Sprintf("%v:read", sqlc.RoleDBA), fmt.Sprintf("%v:write", sqlc.RoleDBA))
+		case sqlc.RoleAnalytics:
+			permission = append(permission, fmt.Sprintf("%v:read", sqlc.RoleAnalytics), fmt.Sprintf("%v:write", sqlc.RoleAnalytics))
 		default:
 			return []string{}
 		}

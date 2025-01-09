@@ -2,7 +2,7 @@
 // versions:
 //   sqlc v1.25.0
 
-package database
+package sqlc
 
 import (
 	"database/sql/driver"
@@ -98,6 +98,16 @@ func (ns NullTimePeriod) Value() (driver.Value, error) {
 		return nil, nil
 	}
 	return string(ns.TimePeriod), nil
+}
+
+type Poem struct {
+	ID        pgtype.UUID      `json:"id"`
+	Intro     string           `json:"intro"`
+	PoetID    pgtype.UUID      `json:"poet_id"`
+	Verses    []string         `json:"verses"`
+	Reviewed  pgtype.Bool      `json:"reviewed"`
+	CreatedAt pgtype.Timestamp `json:"created_at"`
+	UpdatedAt pgtype.Timestamp `json:"updated_at"`
 }
 
 type Poet struct {

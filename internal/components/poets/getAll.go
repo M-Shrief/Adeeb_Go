@@ -1,7 +1,7 @@
 package poets
 
 import (
-	"Adeeb_Go/internal/database"
+	"Adeeb_Go/internal/database/sqlc"
 	"context"
 	"net/http"
 
@@ -12,12 +12,12 @@ type GetAllPoetsInput struct {
 }
 
 type GetAllPoetsOutput struct {
-	Body   []database.GetPoetsRow
+	Body   []sqlc.GetPoetsRow
 	Status int
 }
 
 func GetAllPoetsHandler(ctx context.Context, input *GetAllPoetsInput) (*GetAllPoetsOutput, error) {
-	poets, err := database.Q.GetPoets(ctx)
+	poets, err := sqlc.Q.GetPoets(ctx)
 	if err != nil {
 		return nil, huma.Error404NotFound("Poets are not available")
 	}

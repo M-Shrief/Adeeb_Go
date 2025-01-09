@@ -2,6 +2,7 @@ package database
 
 import (
 	"Adeeb_Go/internal/config"
+	"Adeeb_Go/internal/database/sqlc"
 	"Adeeb_Go/logger"
 	"context"
 	"fmt"
@@ -9,8 +10,6 @@ import (
 
 	"github.com/jackc/pgx/v5"
 )
-
-var Q *Queries
 
 func Connect() (*pgx.Conn, error) {
 	ctx := context.Background()
@@ -44,6 +43,6 @@ func Connect() (*pgx.Conn, error) {
 		conn.TypeMap().RegisterType(dataType)
 	}
 
-	Q = New(conn)
+	sqlc.Q = sqlc.New(conn)
 	return conn, err
 }

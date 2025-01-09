@@ -1,7 +1,7 @@
 package users
 
 import (
-	"Adeeb_Go/internal/database"
+	"Adeeb_Go/internal/database/sqlc"
 	"net/http"
 
 	"github.com/danielgtaylor/huma/v2"
@@ -9,9 +9,9 @@ import (
 
 // General User struct to use in response body.
 type UserOutput struct {
-	ID    string          `json:"id" example:"b266beda-1fea-48a3-8d9f-9be47cd04cc9" doc:"User's uuid"`
-	Name  string          `json:"name" example:"John Doe" doc:"User's name"`
-	Roles []database.Role `json:"roles" enum:"Management,DBA,Analytics" doc:"User's roles"`
+	ID    string      `json:"id" example:"b266beda-1fea-48a3-8d9f-9be47cd04cc9" doc:"User's uuid"`
+	Name  string      `json:"name" example:"John Doe" doc:"User's name"`
+	Roles []sqlc.Role `json:"roles" enum:"Management,DBA,Analytics" doc:"User's roles"`
 }
 
 func RegisterAPI(api huma.API) {

@@ -2,6 +2,7 @@ package poets
 
 import (
 	"Adeeb_Go/internal/database"
+	"Adeeb_Go/internal/database/sqlc"
 	"context"
 	"net/http"
 
@@ -13,7 +14,7 @@ type GetOnePoetInput struct {
 }
 
 type GetOnePoetOutput struct {
-	Body   database.GetPoetByIdRow
+	Body   sqlc.GetPoetByIdRow
 	Status int
 }
 
@@ -23,7 +24,7 @@ func GetOnePoetHandler(ctx context.Context, input *GetOnePoetInput) (*GetOnePoet
 		return nil, huma.Error400BadRequest("Poet's ID is not valid")
 	}
 
-	poet, err := database.Q.GetPoetById(ctx, uuid)
+	poet, err := sqlc.Q.GetPoetById(ctx, uuid)
 	if err != nil {
 		return nil, huma.Error404NotFound("Poet's not found")
 	}

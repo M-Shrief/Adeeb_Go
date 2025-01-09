@@ -3,6 +3,7 @@ package users
 import (
 	"Adeeb_Go/internal/auth"
 	"Adeeb_Go/internal/database"
+	"Adeeb_Go/internal/database/sqlc"
 	"context"
 	"fmt"
 	"net/http"
@@ -22,9 +23,9 @@ func DeleteUserHandler(ctx context.Context, input *DeleteUserInput) (*DeleteUser
 	claims, err := auth.ValidateToken(
 		input.Auth,
 		[]string{
-			fmt.Sprintf("%v:write", database.RoleManagement),
-			fmt.Sprintf("%v:write", database.RoleDBA),
-			fmt.Sprintf("%v:write", database.RoleAnalytics),
+			fmt.Sprintf("%v:write", sqlc.RoleManagement),
+			fmt.Sprintf("%v:write", sqlc.RoleDBA),
+			fmt.Sprintf("%v:write", sqlc.RoleAnalytics),
 		},
 	)
 	if err != nil {
@@ -38,7 +39,7 @@ func DeleteUserHandler(ctx context.Context, input *DeleteUserInput) (*DeleteUser
 		return nil, huma.Error404NotFound("User's not found!")
 	}
 
-	err = database.Q.DeleteUser(ctx, uuid)
+	err = sqlc.Q.DeleteUser(ctx, uuid)
 	if err != nil {
 		return nil, huma.Error404NotFound("Not deleted", err)
 	}

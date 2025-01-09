@@ -2,6 +2,7 @@ package poets
 
 import (
 	"Adeeb_Go/internal/database"
+	"Adeeb_Go/internal/database/sqlc"
 	"context"
 	"net/http"
 
@@ -22,7 +23,7 @@ func DeletePoetHandler(ctx context.Context, input *DeletePoetInput) (*DeletePoet
 		return nil, huma.Error400BadRequest("Poet's ID is not valid")
 	}
 
-	err = database.Q.DeletePoet(ctx, uuid)
+	err = sqlc.Q.DeletePoet(ctx, uuid)
 
 	if err != nil {
 		return nil, huma.Error406NotAcceptable("Delete not accepted", err)

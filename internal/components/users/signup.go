@@ -3,6 +3,7 @@ package users
 import (
 	"Adeeb_Go/internal/auth"
 	"Adeeb_Go/internal/database"
+	"Adeeb_Go/internal/database/sqlc"
 	"context"
 	"net/http"
 	"time"
@@ -12,9 +13,9 @@ import (
 
 type SignupInput struct {
 	Body struct {
-		Name     string          `json:"name" maxLength:"50" example:"John Doe" doc:"User's name"`
-		Password string          `json:"password" maxLength:"100" example:"P@ssword1" doc:"User's password"`
-		Roles    []database.Role `json:"roles" enum:"Management,DBA,Analytics" doc:"User's roles"`
+		Name     string      `json:"name" maxLength:"50" example:"John Doe" doc:"User's name"`
+		Password string      `json:"password" maxLength:"100" example:"P@ssword1" doc:"User's password"`
+		Roles    []sqlc.Role `json:"roles" enum:"Management,DBA,Analytics" doc:"User's roles"`
 	}
 }
 
@@ -35,9 +36,9 @@ func SignupHandler(ctx context.Context, input *SignupInput) (*SignupOutput, erro
 		return nil, err
 	}
 
-	user, err := database.Q.CreateUser(
+	user, err := sqlc.Q.CreateUser(
 		ctx,
-		database.CreateUserParams{
+		sqlc.CreateUserParams{
 			Name:     input.Body.Name,
 			Password: hashedPassword,
 			Roles:    input.Body.Roles,

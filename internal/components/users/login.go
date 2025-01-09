@@ -3,6 +3,7 @@ package users
 import (
 	"Adeeb_Go/internal/auth"
 	"Adeeb_Go/internal/database"
+	"Adeeb_Go/internal/database/sqlc"
 	"context"
 	"net/http"
 	"time"
@@ -28,7 +29,7 @@ type LoginOutput struct {
 }
 
 func LoginHandler(ctx context.Context, input *LoginInput) (*LoginOutput, error) {
-	user, err := database.Q.GetUserByName(
+	user, err := sqlc.Q.GetUserByName(
 		ctx,
 		input.Body.Name,
 	)

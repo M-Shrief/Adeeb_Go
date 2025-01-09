@@ -3,7 +3,7 @@
 //   sqlc v1.25.0
 // source: poets.sql
 
-package database
+package sqlc
 
 import (
 	"context"
