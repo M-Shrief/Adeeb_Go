@@ -1,0 +1,15 @@
+{
+  "details": {
+    "path": "/api/poems/d0a5cdd0-5ba1-41d8-80a5-27ce95f4a932",
+    "method": "GET",
+    "pathParams": []
+  },
+  "requests": [
+    {
+      "contentType": "none"
+    }
+  ],
+  "operationType": "unary",
+  "invokerName": "rest",
+  "typeHint": "GET"
+}
