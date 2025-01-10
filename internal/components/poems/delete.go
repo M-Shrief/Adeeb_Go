@@ -1,7 +1,7 @@
 package poems
 
 import (
-	"Adeeb_Go/internal/database/sqlc"
+	"Adeeb_Go/internal/database"
 	"context"
 	"net/http"
 
@@ -22,11 +22,9 @@ func DeletePoemHandler(ctx context.Context, input *DeletePoemInput) (*DeletePoem
 	// 	return nil, huma.Error400BadRequest("Poem's ID is not valid")
 	// }
 
-	db := sqlc.GetDBTX()
-
 	query := "DELETE FROM poems WHERE id = $1"
 
-	_, err := db.Exec(ctx, query, input.ID)
+	_, err := database.Pool.Exec(ctx, query, input.ID)
 
 	if err != nil {
 		return nil, huma.Error406NotAcceptable("Delete not accepted", err)

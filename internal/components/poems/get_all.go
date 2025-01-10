@@ -1,7 +1,7 @@
 package poems
 
 import (
-	"Adeeb_Go/internal/database/sqlc"
+	"Adeeb_Go/internal/database"
 	"context"
 	"net/http"
 
@@ -18,9 +18,7 @@ type GetAllPoemsOutput struct {
 }
 
 func GetAllPoemsHandler(ctx context.Context, input *GetAllPoemsInput) (*GetAllPoemsOutput, error) {
-	db := sqlc.GetDBTX()
-
-	rows, err := db.Query(ctx, "SELECT id,intro,poet_id,verses FROM poems;")
+	rows, err := database.Pool.Query(ctx, "SELECT id,intro,poet_id,verses FROM poems;")
 	if err != nil {
 		return nil, huma.Error404NotFound("Poems are not available", err)
 	}

@@ -1,7 +1,7 @@
 package poems
 
 import (
-	"Adeeb_Go/internal/database/sqlc"
+	"Adeeb_Go/internal/database"
 	"context"
 	"net/http"
 
@@ -22,8 +22,7 @@ type CreatePoemOutput struct {
 }
 
 func CreatePoemHandler(ctx context.Context, input *CreatePoemInput) (*CreatePoemOutput, error) {
-	db := sqlc.GetDBTX()
-	poem, err := db.Exec(
+	poem, err := database.Pool.Exec(
 		ctx,
 		"insert into Poems (intro, poet_id, verses) values ($1, $2, $3);",
 		input.Body.Intro,

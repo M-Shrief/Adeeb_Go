@@ -1,7 +1,7 @@
 package poems
 
 import (
-	"Adeeb_Go/internal/database/sqlc"
+	"Adeeb_Go/internal/database"
 	"context"
 	"net/http"
 
@@ -18,9 +18,7 @@ type GetOnePoemOutput struct {
 }
 
 func GetOnePoemHandler(ctx context.Context, input *GetOnePoemInput) (*GetOnePoemOutput, error) {
-	db := sqlc.GetDBTX()
-
-	row := db.QueryRow(ctx, "SELECT id,intro,poet_id,verses FROM poems WHERE id = $1;", input.ID)
+	row := database.Pool.QueryRow(ctx, "SELECT id,intro,poet_id,verses FROM poems WHERE id = $1;", input.ID)
 
 	var poem Poem
 	err := row.Scan(&poem.Id, &poem.Intro, &poem.Poet_id, &poem.Verses)
