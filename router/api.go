@@ -2,6 +2,7 @@ package router
 
 import (
 	"Adeeb_Go/internal/components/heartbeat"
+	"Adeeb_Go/internal/components/poems"
 	"Adeeb_Go/internal/components/poets"
 	"Adeeb_Go/internal/components/users"
 
@@ -35,4 +36,5 @@ func registerAPIs() {
 	heartbeat.RegisterAPI(API)
 	users.RegisterAPI(API)
 	poets.RegisterAPI(API)
+	poems.RegisterAPI(API)
 }
