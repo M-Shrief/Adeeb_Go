@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS proses (
+    id UUID NOT NULL DEFAULT gen_random_uuid(),
+    poet_id UUID NOT NULL,
+    qoute VARCHAR(500),
+    reviewed BOOLEAN DEFAULT true,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    FOREIGN KEY (poet_id) REFERENCES poets(id)
+);
