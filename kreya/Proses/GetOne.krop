@@ -1,0 +1,15 @@
+{
+  "details": {
+    "path": "/api/proses/6affc241-4981-44b5-a875-51ca0671f39e",
+    "method": "GET",
+    "pathParams": []
+  },
+  "requests": [
+    {
+      "contentType": "none"
+    }
+  ],
+  "operationType": "unary",
+  "invokerName": "rest",
+  "typeHint": "GET"
+}

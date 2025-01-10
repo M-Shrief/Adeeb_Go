@@ -1,0 +1,22 @@
+{
+  "details": {
+    "path": "/api/proses/6affc241-4981-44b5-a875-51ca0671f39e",
+    "method": "PUT",
+    "headers": [
+      {
+        "key": "Content-Type",
+        "value": "application/json"
+      }
+    ],
+    "pathParams": []
+  },
+  "requests": [
+    {
+      "location": "Update-request.json",
+      "contentType": "json"
+    }
+  ],
+  "operationType": "unary",
+  "invokerName": "rest",
+  "typeHint": "PUT"
+}
