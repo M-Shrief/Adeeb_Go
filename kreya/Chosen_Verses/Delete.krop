@@ -1,7 +1,7 @@
 {
   "details": {
-    "path": "/api/poems/4d1d5478-4592-413d-b40a-b0615064f036",
-    "method": "GET",
+    "path": "/api/chosen_verses/c996cefa-dd4f-4721-ad61-a9e8dabdc01c",
+    "method": "DELETE",
     "pathParams": []
   },
   "requests": [
@@ -11,5 +11,5 @@
   ],
   "operationType": "unary",
   "invokerName": "rest",
-  "typeHint": "GET"
+  "typeHint": "DELETE"
 }
