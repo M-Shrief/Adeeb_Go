@@ -8,19 +8,19 @@ import (
 	"github.com/danielgtaylor/huma/v2"
 )
 
-type GetOneChosenVersesInput struct {
+type GetOneChosenVersesItemInput struct {
 	ID string `path:"id" maxLength:"100" doc:"Chosen Verses's ID"`
 }
 
-type GetOneChosenVersesOutput struct {
-	Body   ChosenVerses
+type GetOneChosenVersesItemOutput struct {
+	Body   ChosenVerses_Item
 	Status int
 }
 
-func GetOneChosenVersesHandler(ctx context.Context, input *GetOneChosenVersesInput) (*GetOneChosenVersesOutput, error) {
+func GetOneChosenVersesHandler(ctx context.Context, input *GetOneChosenVersesItemInput) (*GetOneChosenVersesItemOutput, error) {
 	row := database.Pool.QueryRow(ctx, "SELECT id, poet_id, poem_id, verses FROM chosen_verses WHERE id = $1;", input.ID)
 
-	var chosen_verses ChosenVerses
+	var chosen_verses ChosenVerses_Item
 	err := row.Scan(
 		&chosen_verses.Id,
 		&chosen_verses.Poet_id,
@@ -32,7 +32,7 @@ func GetOneChosenVersesHandler(ctx context.Context, input *GetOneChosenVersesInp
 		return nil, huma.Error404NotFound("Chosen Verses's not found")
 	}
 
-	resp := &GetOneChosenVersesOutput{
+	resp := &GetOneChosenVersesItemOutput{
 		Body:   chosen_verses,
 		Status: http.StatusOK,
 	}

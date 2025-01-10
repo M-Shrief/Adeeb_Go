@@ -9,7 +9,7 @@ import (
 	"github.com/danielgtaylor/huma/v2"
 )
 
-type CreateChosenVersesInput struct {
+type CreateChosenVersesItemInput struct {
 	Body struct {
 		Poet_ID string        `json:"poet_id" format:"uuid" maxLength:"100" doc:"Poet's ID"`
 		Poem_ID string        `json:"poem_id" format:"uuid" maxLength:"100" doc:"Poem's ID"`
@@ -17,12 +17,12 @@ type CreateChosenVersesInput struct {
 	}
 }
 
-type CreateChosenVersesOutput struct {
+type CreateChosenVersesItemOutput struct {
 	Body   any
 	Status int
 }
 
-func CreateChosenVersesHandler(ctx context.Context, input *CreateChosenVersesInput) (*CreateChosenVersesOutput, error) {
+func CreateChosenVersesHandler(ctx context.Context, input *CreateChosenVersesItemInput) (*CreateChosenVersesItemOutput, error) {
 	chosen_verses, err := database.Pool.Exec(
 		ctx,
 		"INSERT INTO chosen_verses (poet_id, poem_id, verses) values ($1, $2, $3);",
@@ -35,5 +35,5 @@ func CreateChosenVersesHandler(ctx context.Context, input *CreateChosenVersesInp
 		return nil, huma.Error406NotAcceptable("Data is not acceptable", err) // need to customize errors:[]
 	}
 
-	return &CreateChosenVersesOutput{Body: chosen_verses, Status: http.StatusCreated}, nil
+	return &CreateChosenVersesItemOutput{Body: chosen_verses, Status: http.StatusCreated}, nil
 }

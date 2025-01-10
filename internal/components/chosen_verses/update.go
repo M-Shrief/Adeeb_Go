@@ -9,7 +9,7 @@ import (
 	"github.com/danielgtaylor/huma/v2"
 )
 
-type UpdateChosenVersesInput struct {
+type UpdateChosenVersesItemInput struct {
 	ID   string `path:"id" maxLength:"100" doc:"Chosen Verses's ID"`
 	Body struct {
 		Poet_ID string        `json:"poet_id" required:"false" format:"uuid" maxLength:"100" doc:"Poet's ID"`
@@ -18,11 +18,11 @@ type UpdateChosenVersesInput struct {
 	}
 }
 
-type UpdateChosenVersesOutput struct {
+type UpdateChosenVersesItemOutput struct {
 	Status int
 }
 
-func UpdateChosenVersesHandler(ctx context.Context, input *UpdateChosenVersesInput) (*UpdateChosenVersesOutput, error) {
+func UpdateChosenVersesHandler(ctx context.Context, input *UpdateChosenVersesItemInput) (*UpdateChosenVersesItemOutput, error) {
 	uuid, err := database.StringToUUID(input.ID)
 	if err != nil {
 		return nil, huma.Error422UnprocessableEntity("Invalid ID", err)
@@ -39,5 +39,5 @@ func UpdateChosenVersesHandler(ctx context.Context, input *UpdateChosenVersesInp
 		return nil, huma.Error406NotAcceptable("Update not accepted", err)
 	}
 
-	return &UpdateChosenVersesOutput{Status: http.StatusAccepted}, nil
+	return &UpdateChosenVersesItemOutput{Status: http.StatusAccepted}, nil
 }

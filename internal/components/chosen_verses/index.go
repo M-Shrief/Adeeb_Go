@@ -1,10 +1,19 @@
 package chosen_verses
 
 import (
+	"Adeeb_Go/internal/components/poems"
 	"net/http"
 
 	"github.com/danielgtaylor/huma/v2"
+	"github.com/jackc/pgx/v5/pgtype"
 )
+
+type ChosenVerses_Item struct {
+	Id      pgtype.UUID   `json:"id"`
+	Poet_id pgtype.UUID   `json:"poet_id"`
+	Poem_id pgtype.UUID   `json:"poem_id"`
+	Verses  []poems.Verse `json:"verses"`
+}
 
 func RegisterAPI(api huma.API) {
 
