@@ -5,6 +5,7 @@ import (
 	"Adeeb_Go/internal/components/heartbeat"
 	"Adeeb_Go/internal/components/poems"
 	"Adeeb_Go/internal/components/poets"
+	"Adeeb_Go/internal/components/proses"
 	"Adeeb_Go/internal/components/users"
 
 	"github.com/danielgtaylor/huma/v2"
@@ -39,4 +40,5 @@ func registerAPIs() {
 	poets.RegisterAPI(API)
 	poems.RegisterAPI(API)
 	chosen_verses.RegisterAPI(API)
+	proses.RegisterAPI(API)
 }
