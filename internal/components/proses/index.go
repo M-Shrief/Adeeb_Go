@@ -56,4 +56,18 @@ func RegisterAPI(api huma.API) {
 		},
 		GetProseItemHandler,
 	)
+
+	huma.Register(
+		api,
+		huma.Operation{
+			OperationID:   "update-proses-item",
+			Method:        http.MethodPut,
+			Path:          "/api/proses/{id}",
+			Summary:       "Update a Proses Item",
+			Description:   "Update a Proses Item By ID.",
+			Tags:          []string{"Proses"},
+			DefaultStatus: http.StatusAccepted,
+		},
+		UpdateProseItemHandler,
+	)
 }
