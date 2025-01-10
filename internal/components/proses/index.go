@@ -28,4 +28,18 @@ func RegisterAPI(api huma.API) {
 		},
 		CreateProsesItemHandler,
 	)
+
+	huma.Register(
+		api,
+		huma.Operation{
+			OperationID:   "get-proses",
+			Method:        http.MethodGet,
+			Path:          "/api/proses",
+			Summary:       "Get All Proses",
+			Description:   "Get all Proses",
+			Tags:          []string{"Proses"},
+			DefaultStatus: http.StatusOK,
+		},
+		GetAllProsesHandler,
+	)
 }
