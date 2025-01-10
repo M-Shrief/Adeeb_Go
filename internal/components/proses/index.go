@@ -70,4 +70,18 @@ func RegisterAPI(api huma.API) {
 		},
 		UpdateProseItemHandler,
 	)
+
+	huma.Register(
+		api,
+		huma.Operation{
+			OperationID:   "delete-proses-item",
+			Method:        http.MethodDelete,
+			Path:          "/api/proses/{id}",
+			Summary:       "Delete a Proses Item",
+			Description:   "Delete a Proses Item by ID.",
+			Tags:          []string{"Proses"},
+			DefaultStatus: http.StatusAccepted,
+		},
+		DeleteProseItemHandler,
+	)
 }
