@@ -13,9 +13,10 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
+var Pool *pgxpool.Pool
+
 func Connect() (*pgxpool.Pool, error) {
 	ctx := context.Background()
-	// Create database connection
 	connPool, err := pgxpool.NewWithConfig(ctx, GetPoolConfig())
 	if err != nil {
 		logger.Error().Stack().Err(err).Msg("Database not connected")

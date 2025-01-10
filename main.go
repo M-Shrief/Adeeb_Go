@@ -17,8 +17,8 @@ func main() {
 	logger.Init()
 
 	// Database
-	conn, _ := database.Connect()
-	defer conn.Close()
+	database.Pool, _ = database.Connect()
+	defer database.Pool.Close()
 
 	// Router & API
 	r := router.NewRouter()

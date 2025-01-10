@@ -1,7 +1,6 @@
 package database
 
 import (
-	"Adeeb_Go/internal/database/sqlc"
 	"Adeeb_Go/utils"
 	"context"
 	"encoding/hex"
@@ -77,7 +76,7 @@ func UpdateQuery(table string, id pgtype.UUID, fields []Field) error {
 
 	fmt.Println(query)
 
-	_, err := sqlc.GetDBTX().Exec(context.TODO(), query, fieldsValues...)
+	_, err := Pool.Exec(context.TODO(), query, fieldsValues...)
 	if err != nil {
 		return fmt.Errorf("Upate Failed, error: %v", err)
 	}
