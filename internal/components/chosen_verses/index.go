@@ -50,4 +50,18 @@ func RegisterAPI(api huma.API) {
 		GetOneChosenVersesHandler,
 	)
 
+	huma.Register(
+		api,
+		huma.Operation{
+			OperationID:   "update-chosen_verses-item",
+			Method:        http.MethodPut,
+			Path:          "/api/chosen_verses/{id}",
+			Summary:       "Update a Chosen Verses Item",
+			Description:   "Update a Chosen Verses Item By ID.",
+			Tags:          []string{"Chosen_Verses"},
+			DefaultStatus: http.StatusAccepted,
+		},
+		UpdateChosenVersesHandler,
+	)
+
 }
